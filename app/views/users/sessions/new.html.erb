@@ -1,0 +1,47 @@
+<div class="authform">
+  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :role => 'form'}) do |f| %>
+    <h3>Sign in</h3>
+    <%= devise_error_messages! %>
+    <div class="form-group">
+      <%- if devise_mapping.registerable? %>
+        <%= link_to 'Sign up', new_registration_path(resource_name), class: 'right'  %>
+      <% end -%>
+      <%= f.label :email %>
+      <%= f.email_field :email, :autofocus => true, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%- if devise_mapping.recoverable? %>
+        <%= link_to "Forgot password?", new_password_path(resource_name), class: 'right' %>
+      <% end -%>
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+    </div>
+      <%= f.submit 'Sign in', :class => 'button right' %>
+      <% if devise_mapping.rememberable? -%>
+        <div class="checkbox" style="width:150px">
+          <label>
+            <%= f.check_box :remember_me %> Remember me
+          </label>
+        </div>
+      <% end -%>
+
+
+<div>
+Connect Account
+
+
+
+<% ['facebook', 'twitter', 'github', 'linkedin', 'google_oauth2'].each do |provider| %>
+
+  <%  if current_user.authorizations.pluck(:provider).include?(provider.to_s) %>
+    <%=  provider.to_s.titleize %> Connected
+  <%  else %>
+      <%= link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path('user', provider) %>
+  <% end %>
+<br/>
+<% end %>
+
+</div>
+
+  <% end %>
+</div>
